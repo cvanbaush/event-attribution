@@ -1,3 +1,25 @@
+export const SIGNED_UP = {
+  context: {
+    location: {
+      latitude: 28.6667,
+      longitude: 77.2167
+    },
+    page: {
+      url: "https://app.drift.com/welcome/drift"
+    }
+  },
+  created_at: "2018-01-30T01:00:00+01:00",
+  event: "Signed Up",
+  event_source: "segment",
+  event_type: "track",
+  properties: {
+    context: "widget-onboarding",
+    email: "kartikey.porwa@gmail.com",
+    org_id: 94193,
+    via: "getstarted"
+  }
+};
+
 export const EMAIL_CAPTURE_MAIN = {
   context: {
     location: {
@@ -9,7 +31,7 @@ export const EMAIL_CAPTURE_MAIN = {
         "https://www.drift.com/the-secret-to-more-sales-meetings/?utm_source=hs_email&utm_medium=email&utm_content=60270895&_hsenc=p2ANqtz-8fHLrBObG46PNIorb43X0kLdYB5bIrRR10D4yA3aeV80FK3bN94K0kxVu5Soy8l3QL7IBwnrKuJUVXL750nDZembu4-A&_hsmi=60270895"
     }
   },
-  created_at: "2018-01-30T12:54:33Z",
+  created_at: "2018-01-30T01:00:00+01:00",
   event: "Email Captured",
   event_source: "segment",
   event_type: "track",
@@ -28,7 +50,7 @@ export const EMAIL_CAPTURE_BLOG = {
       url: "https://blog.drift.com/how-to-launch-a-product/"
     }
   },
-  created_at: "2018-01-30T11:30:58Z",
+  created_at: "2018-01-30T01:00:00+01:00",
   event: "Email Captured",
   event_source: "segment",
   event_type: "track",
@@ -37,34 +59,12 @@ export const EMAIL_CAPTURE_BLOG = {
   }
 };
 
-export const SIGNED_UP = {
-  context: {
-    location: {
-      latitude: 28.6667,
-      longitude: 77.2167
-    },
-    page: {
-      url: "https://app.drift.com/welcome/drift"
-    }
-  },
-  created_at: "2018-01-30T05:11:04Z",
-  event: "Signed Up",
-  event_source: "segment",
-  event_type: "track",
-  properties: {
-    context: "widget-onboarding",
-    email: "kartikey.porwa@gmail.com",
-    org_id: 94193,
-    via: "getstarted"
-  }
-};
-
 export const CLEARBIT_PROSPECT = {
   context: {
     location: {},
     page: {}
   },
-  created_at: "2018-02-01T16:38:00Z",
+  created_at: "2018-01-30T01:00:00+01:00",
   event: "User created",
   event_source: "Clearbit",
   event_type: "user_created",
@@ -75,11 +75,11 @@ export const CLEARBIT_PROSPECT = {
       "VP, Marketing Strategy, Analysis, Programmatic Media Buying",
     "clearbit/full_name": "Louisa Wee",
     "clearbit/prospect_id": "e_ed3349d9-053b-43d3-9951-93b147a8132b",
-    "clearbit/prospected_at": "2018-02-01T16:37:23Z",
+    "clearbit/prospected_at": "2018-02-01T16:37:23+01:00",
     "clearbit/prospected_from": "5a680c04850dc3cc310039c4",
     "clearbit/source": "prospector",
     "clearbit/verified": true,
-    created_at: "2018-02-01T16:38:00Z",
+    created_at: "2018-02-01T16:38:00+01:00",
     email: "lwee@netflix.com",
     first_name: "Louisa",
     last_name: "Wee"
@@ -91,7 +91,7 @@ export const G2CROWD = {
     location: {},
     page: {}
   },
-  created_at: "2018-02-02T10:15:31Z",
+  created_at: "2018-01-30T01:00:00+01:00",
   event: "Visited G2Crowd Page",
   event_source: "scheduled-calls",
   event_type: "track",
@@ -117,7 +117,7 @@ export const ANONYMOUS_VISIT = {
       url: "https://www.drift.com/?utm_source=www.thelonelypixel.co.uk&utm_campaign=widget-referral"
     }
   },
-  created_at: "2018-02-02T10:23:15Z",
+  created_at: "2018-01-30T01:00:00+01:00",
   event: "page",
   event_source: "segment",
   event_type: "track",

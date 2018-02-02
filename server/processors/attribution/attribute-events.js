@@ -13,7 +13,7 @@ export default function attribute(user, event) {
     created_at,
     event: name
   } = event;
-  const { page } = context || {};
+  const { page = {} } = context || {};
 
   // Signup -> PQL
   if (name === "Signed Up" || name === "Started Subscription") {
@@ -23,7 +23,7 @@ export default function attribute(user, event) {
       rank: 1,
       source_date: created_at,
       user_id: user.id,
-      details: properties.billing_plan || page.url || properties.type
+      details: properties.billing_plan || page.url || properties.type || ""
     };
   }
 
