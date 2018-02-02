@@ -36,5 +36,8 @@
 
 ### Deploying
 
-Anywhere node is supported. Or in 1 click with:
+- Anywhere node.js is supported.
+
+- Or in 1 click with:
+
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/unity/event-attribution)
