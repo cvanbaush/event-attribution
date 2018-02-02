@@ -14,7 +14,9 @@ import {
   SIGNED_UP,
   CLEARBIT_PROSPECT,
   G2CROWD,
-  ANONYMOUS_VISIT
+  ANONYMOUS_VISIT,
+  SEGMENT_G2CROWD,
+  SEGMENT_SIFTERY
 } from "./fixtures/events";
 
 import {
@@ -22,15 +24,18 @@ import {
   CQL,
   MQL,
   GROWTH_CLEARBIT,
-  GROWTH_VISIT
+  GROWTH_VISIT,
+  GROWTH_SIFTERY,
+  GROWTH_G2CROWD
 } from "./fixtures/attribution";
 
 import computeAttribution from "../../server/processors/attribution";
 
 const offsetHours = (offset = 0) =>
-  moment()
+  moment("2018-01-01")
     .add(offset, "hours")
     .format();
+
 const last = attr => _.mapKeys(attr, (v, k) => `last_${k}`);
 
 describe("Attribution when no Attribution", () => {
@@ -88,7 +93,6 @@ describe("Attribution when no Attribution", () => {
       user,
       events: [ANONYMOUS_VISIT]
     });
-    console.log(attribution);
     expect(attribution).to.deep.equal({
       user: {},
       account: {}
@@ -109,10 +113,40 @@ describe("Attribution when no Attribution", () => {
       account: { ...GROWTH_VISIT, ...last(GROWTH_VISIT) }
     });
   });
+
+  it("Should return Growth when a Siftery is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user: {
+        ...user,
+        email: null
+      },
+      events: [SEGMENT_SIFTERY]
+    });
+    expect(attribution).to.deep.equal({
+      user: { ...GROWTH_SIFTERY, ...last(GROWTH_SIFTERY) },
+      account: { ...GROWTH_SIFTERY, ...last(GROWTH_SIFTERY) }
+    });
+  });
+
+  it("Should return Growth when a G2Crowd Segment Visit is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user: {
+        ...user,
+        email: null
+      },
+      events: [SEGMENT_G2CROWD]
+    });
+    expect(attribution).to.deep.equal({
+      user: { ...GROWTH_G2CROWD, ...last(GROWTH_G2CROWD) },
+      account: { ...GROWTH_G2CROWD, ...last(GROWTH_G2CROWD) }
+    });
+  });
 });
 
 describe("Attribution when multiple of different ranks on same day", () => {
-  it("Should override MQL when a PQL comes in", () => {
+  it("Should override MQL when a PQL comes in on same day", () => {
     const attribution = computeAttribution({
       account,
       user: {
@@ -124,7 +158,7 @@ describe("Attribution when multiple of different ranks on same day", () => {
       },
       events: [
         {
-          ...PQL,
+          ...SIGNED_UP,
           created_at: offsetHours(2)
         }
       ]
@@ -134,9 +168,37 @@ describe("Attribution when multiple of different ranks on same day", () => {
         ...PQL,
         ...last(PQL),
         source_date: offsetHours(2),
-        last_source_date: offsetHours(2),
+        last_source_date: offsetHours(2)
       },
-      account: { ...PQL, ...last(PQL) }
+      account: {
+        ...PQL,
+        ...last(PQL),
+        source_date: offsetHours(2),
+        last_source_date: offsetHours(2)
+      }
+    });
+  });
+  it("Should NOT override first touch MQL when a PQL comes in on previous day", () => {
+    const attribution = computeAttribution({
+      account,
+      user: {
+        ...user,
+        attribution: {
+          ...MQL,
+          source_date: offsetHours(0),
+          last_source_date: offsetHours(0)
+        }
+      },
+      events: [
+        {
+          ...SIGNED_UP,
+          created_at: offsetHours(-25)
+        }
+      ]
+    });
+    expect(attribution).to.deep.equal({
+      user: {},
+      account: {}
     });
   });
 

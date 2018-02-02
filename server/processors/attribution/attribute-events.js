@@ -14,7 +14,7 @@ export default function attribute(user, event) {
     event: name
   } = event;
   const { page = {} } = context || {};
-
+  console.log(event)
   // Signup -> PQL
   if (name === "Signed Up" || name === "Started Subscription") {
     return {
@@ -35,7 +35,7 @@ export default function attribute(user, event) {
       rank: 1,
       source_date: created_at,
       user_id: user.id,
-      detail: page.url
+      details: page.url
     };
   }
 

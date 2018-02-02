@@ -107,6 +107,50 @@ export const G2CROWD = {
   }
 };
 
+export const SEGMENT_G2CROWD = {
+  context: {
+    location: {},
+    page: {}
+  },
+  created_at: "2018-01-30T01:00:00+01:00",
+  event: "G2Crowd",
+  event_source: "segment",
+  event_type: "track",
+  properties: {
+    name: "G2Crowd",
+    "At Time": "February 01, 2018 06:27 PM CST",
+    Country: "Canada (CA)",
+    "First User Visited": "/products/drift/reviews",
+    "First Visit": "G2 Crowd",
+    Industry: "unknown",
+    Organization: "unknown",
+    "Then User Visited": "https://www.drift.com/",
+    "Time Between Events": "42 minutes"
+  }
+};
+
+export const SEGMENT_SIFTERY = {
+  context: {
+    location: {},
+    page: {}
+  },
+  created_at: "2018-01-30T01:00:00+01:00",
+  event: "Siftery",
+  event_source: "segment",
+  event_type: "track",
+  properties: {
+    name: "Siftery",
+    "At Time": "February 01, 2018 06:27 PM CST",
+    Country: "Canada (CA)",
+    "First User Visited": "/products/drift/reviews",
+    "First Visit": "G2 Crowd",
+    Industry: "unknown",
+    Organization: "unknown",
+    "Then User Visited": "https://www.drift.com/",
+    "Time Between Events": "42 minutes"
+  }
+};
+
 export const ANONYMOUS_VISIT = {
   context: {
     location: {
