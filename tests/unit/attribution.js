@@ -28,53 +28,53 @@ import {
 import computeAttribution from "../../server/processors/attribution";
 
 describe("Attribution when no Attribution", () => {
-  // it("Should return a PQL when a PQL event is there", () => {
-  //   const attribution = computeAttribution({
-  //     account,
-  //     user,
-  //     events: [SIGNED_UP]
-  //   });
-  //   expect(attribution).to.deep.equal({
-  //     user: PQL,
-  //     account: PQL
-  //   });
-  // });
-  //
-  // it("Should return a MQL when a MQL event is there", () => {
-  //   const attribution = computeAttribution({
-  //     account,
-  //     user,
-  //     events: [EMAIL_CAPTURE_BLOG]
-  //   });
-  //   expect(attribution).to.deep.equal({
-  //     user: MQL,
-  //     account: MQL
-  //   });
-  // });
-  //
-  // it("Should return a CQL when a CQL event is there", () => {
-  //   const attribution = computeAttribution({
-  //     account,
-  //     user,
-  //     events: [EMAIL_CAPTURE_MAIN]
-  //   });
-  //   expect(attribution).to.deep.equal({
-  //     user: CQL,
-  //     account: CQL
-  //   });
-  // });
-  //
-  // it("Should return Growth when a Clearbit event is there", () => {
-  //   const attribution = computeAttribution({
-  //     account,
-  //     user,
-  //     events: [CLEARBIT_PROSPECT]
-  //   });
-  //   expect(attribution).to.deep.equal({
-  //     user: GROWTH_CLEARBIT,
-  //     account: GROWTH_CLEARBIT
-  //   });
-  // });
+  it("Should return a PQL when a PQL event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [SIGNED_UP]
+    });
+    expect(attribution).to.deep.equal({
+      user: PQL,
+      account: PQL
+    });
+  });
+
+  it("Should return a MQL when a MQL event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [EMAIL_CAPTURE_BLOG]
+    });
+    expect(attribution).to.deep.equal({
+      user: MQL,
+      account: MQL
+    });
+  });
+
+  it("Should return a CQL when a CQL event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [EMAIL_CAPTURE_MAIN]
+    });
+    expect(attribution).to.deep.equal({
+      user: CQL,
+      account: CQL
+    });
+  });
+
+  it("Should return Growth when a Clearbit event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [CLEARBIT_PROSPECT]
+    });
+    expect(attribution).to.deep.equal({
+      user: GROWTH_CLEARBIT,
+      account: GROWTH_CLEARBIT
+    });
+  });
 
   it("Should NOT return Growth when a user w/ email does a visit", () => {
     const attribution = computeAttribution({
@@ -82,6 +82,7 @@ describe("Attribution when no Attribution", () => {
       user,
       events: [ANONYMOUS_VISIT]
     });
+    console.log(attribution)
     expect(attribution).to.deep.equal({
       user: {},
       account: {}

@@ -17,7 +17,6 @@ export default function({ user, account, userAttribution }) {
       userAttribution.rank >= attribution.rank)
   ) {
     accountAttribution = {
-      user_id: user.id, // The ID of the user who triggered attribution
       ...getFirstAttribution(userAttribution)
     };
   }
@@ -32,7 +31,6 @@ export default function({ user, account, userAttribution }) {
   ) {
     accountAttribution = {
       ...accountAttribution,
-      user_id: user.id, // The ID of the user who triggered attribution
       ...getLastAttribution(userAttribution)
     };
   }
