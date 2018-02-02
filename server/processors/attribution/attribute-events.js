@@ -39,11 +39,8 @@ export default function attribute(user, event) {
     };
   }
 
-  // ASK: in document, event name is a page, in code it's an `Email Captured`
-  // What's the right one ?
-
   // Email Capture (MainPage) -> MQL
-  if (name === "page" && blogPagePattern.test(page.url)) {
+  if (name === "Email Captured" && blogPagePattern.test(page.url)) {
     return {
       event: name,
       rank: 2,

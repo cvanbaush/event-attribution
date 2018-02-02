@@ -1,4 +1,4 @@
-export const EMAIL_CAPTURE_BLOG = {
+export const EMAIL_CAPTURE_MAIN = {
   context: {
     location: {
       latitude: 52.2093,
@@ -18,7 +18,7 @@ export const EMAIL_CAPTURE_BLOG = {
   }
 };
 
-export const EMAIL_CAPTURE_MAIN = {
+export const EMAIL_CAPTURE_BLOG = {
   context: {
     location: {
       latitude: 43.4106,
@@ -28,7 +28,7 @@ export const EMAIL_CAPTURE_MAIN = {
       url: "https://blog.drift.com/how-to-launch-a-product/"
     }
   },
-  created_at: "2018-01-30T11:40:53Z",
+  created_at: "2018-01-30T11:30:58Z",
   event: "Email Captured",
   event_source: "segment",
   event_type: "track",
@@ -104,5 +104,28 @@ export const G2CROWD = {
     Organization: "unknown",
     "Then User Visited": "https://www.drift.com/",
     "Time Between Events": "42 minutes"
+  }
+};
+
+export const ANONYMOUS_VISIT = {
+  context: {
+    location: {
+      latitude: 46.7791,
+      longitude: 6.6026
+    },
+    page: {
+      url: "https://www.drift.com/?utm_source=www.thelonelypixel.co.uk&utm_campaign=widget-referral"
+    }
+  },
+  created_at: "2018-02-02T10:23:15Z",
+  event: "page",
+  event_source: "segment",
+  event_type: "track",
+  properties: {
+    name: "Home",
+    path: "/",
+    search: "?utm_source=www.thelonelypixel.co.uk&utm_campaign=widget-referral",
+    title: "Drift  Conversational Marketing Platform",
+    url: "https://www.drift.com/?utm_source=www.thelonelypixel.co.uk&utm_campaign=widget-referral"
   }
 };
