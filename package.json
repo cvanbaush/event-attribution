@@ -1,0 +1,92 @@
+{
+  "name": "hull-eventprocessor",
+  "version": "1.0.0",
+  "description": "Synchronize Data with EventProcessor",
+  "main": "index.js",
+  "license": "MIT",
+  "homepage": "https://github.com/hull-ships/hull-eventprocessor",
+  "author": {
+    "name": "Hull",
+    "email": "contact@hull.io",
+    "url": "https://github.com/hull-ships/hull-eventprocessor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hull-ships/hull-eventprocessor"
+  },
+  "bugs": {
+    "url": "https://github.com/hull-ships/hull-eventprocessor/issues"
+  },
+  "engines": {
+    "node": "8.x",
+    "npm": "3.x"
+  },
+  "lint-staged": {
+    "*.{js,jsx,css,scss,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "hull",
+    "ship",
+    "hull-ship",
+    "integration",
+    "user",
+    "sync",
+    "eventprocessor"
+  ],
+  "scripts": {
+    "ngrok": "ngrok http 8082 --region eu --subdomain hull-eventprocessor",
+    "build": "builder run build",
+    "build:client": "builder run build:client",
+    "build:server": "builder run build:server",
+    "clean": "builder run clean",
+    "prettier": "builder run prettier",
+    "flow": "builder run flow",
+    "lint": "builder run lint",
+    "precommit": "builder run precommit",
+    "postinstall": "builder --expand-archetype run build",
+    "update": "builder run update",
+    "test:client": "builder run test:client",
+    "test:coverage": "builder run test:coverage",
+    "test:lint": "builder run test:lint",
+    "test:modules": "builder run test:modules",
+    "test:specs": "builder run test:specs",
+    "test:units": "builder run test:units",
+    "start": "NODE_ENV=production node -r newrelic lib",
+    "dev": "builder run dev",
+    "test": "builder run npm:test"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "builder": "^3.2.3",
+    "classnames": "^2.2.5",
+    "express": "^4.16.2",
+    "hull": "^0.13.9",
+    "hull-connector": "^1.0.41",
+    "hull-connector-dev": "^1.0.41",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "newrelic": "^2.4.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "redux-logger": "^3.0.6",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.2.0",
+    "urijs": "^1.19.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "ngrok": "^2.2.24",
+    "react-hot-loader": "^3.1.1",
+    "reactotron-react-js": "^1.12.2",
+    "reactotron-redux": "^1.12.2",
+    "updtr": "^2.0.0"
+  }
+}

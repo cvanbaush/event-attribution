@@ -1,0 +1,15 @@
+{
+  "name": "Hull EventProcessor Sync",
+  "description": "A Hull Integration for EventProcessor.",
+  "repository": "https://github.com/hull-ships/hull-eventprocessor",
+  "website": "http://www.hull.io",
+  "success_url": "/readme",
+  "env": {
+    "SECRET": {
+      "description": "A Secret key used to authenticate on Hull API",
+      "generator": "secret"
+    }
+  },
+  "addons": ["logentries", "newrelic"],
+  "scripts": {}
+}

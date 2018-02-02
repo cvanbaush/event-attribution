@@ -1,0 +1,14 @@
+{
+  "name": "hull-eventprocessor",
+  "description": "Synchronize Data with EventProcessor",
+  "tags": ["incoming", "outgoing", "batch", "oneColumn", "smart-notifier"],
+  "ui": false,
+  "picture": "picture.png",
+  "admin": "admin.html",
+  "readme": "readme.md",
+  "version": "0.0.1",
+  "private_settings": [],
+  "settings": [],
+  "resources": [],
+  "subscriptions": [{ "url": "/smart-notifier" }]
+}
