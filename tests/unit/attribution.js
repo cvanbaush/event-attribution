@@ -37,4 +37,54 @@ describe("Attribution when no Attribution", () => {
       account: PQL
     });
   });
+
+  it("Should return MQL when a MQL event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [EMAIL_CAPTURE_BLOG]
+    });
+    expect(attribution).to.deep.equal({
+      user: MQL,
+      account: MQL
+    });
+  });
+
+  it("Should return CQL when a CQL event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [EMAIL_CAPTURE_MAIN]
+    });
+    expect(attribution).to.deep.equal({
+      user: CQL,
+      account: CQL
+    });
+  });
+
+  it("Should return Growth when a Clearbit event is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [CLEARBIT_PROSPECT]
+    });
+    expect(attribution).to.deep.equal({
+      user: GROWTH_CLEARBIT,
+      account: GROWTH_CLEARBIT
+    });
+  });
+
+  it("Should return Growth when a Anonymous Visit is there", () => {
+    const attribution = computeAttribution({
+      account,
+      user,
+      events: [GROWTH_VISIT]
+    });
+    expect(attribution).to.deep.equal({
+      user: GROWTH_VISIT,
+      account: GROWTH_VISIT
+    });
+  });
+
+
 });
