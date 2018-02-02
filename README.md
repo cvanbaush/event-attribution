@@ -32,3 +32,9 @@
 # or
 > yarn test:watch # to keep it watching.
 ```
+
+
+### Deploying
+
+Anywhere node is supported. Or in 1 click with:
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/hull-ships/hull-processor)
