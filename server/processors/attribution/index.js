@@ -18,6 +18,7 @@ export default function perform(context, message) {
       actions.push({
         action: "success",
         target: asUser,
+        id: user.id,
         type: "user",
         message: { attribution: attribution.user }
       });
@@ -25,6 +26,7 @@ export default function perform(context, message) {
       actions.push({
         action: "skip",
         target: asUser,
+        id: user.id,
         type: "user",
         message: "no new user attribution data"
       });
@@ -38,6 +40,7 @@ export default function perform(context, message) {
       actions.push({
         action: "success",
         target: asAccount,
+        id: user.id,
         type: "account",
         message: { attribution: attribution.account }
       });
@@ -45,6 +48,7 @@ export default function perform(context, message) {
       actions.push({
         action: "skip",
         target: asAccount,
+        id: user.id,
         type: "account",
         message: "no new account attribution data"
       });
@@ -52,6 +56,7 @@ export default function perform(context, message) {
   } catch (e) {
     actions.push({
       target: asUser,
+      id: user.id,
       type: "user",
       action: "error",
       message: e.message
