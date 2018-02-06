@@ -1,13 +1,14 @@
 /* eslint-env node, mocha */
 
+import _ from "lodash";
 import moment from "moment";
 import assert from "assert";
-import _ from "lodash";
 import { expect } from "chai";
 import sinon from "sinon";
 
-import account from "./fixtures/account";
-import user from "./fixtures/user";
+import account from "./fixtures/account.json";
+import user from "./fixtures/user.json";
+
 import * as EVENTS from "./fixtures/events";
 
 import {
@@ -20,7 +21,7 @@ import {
   GROWTH_G2CROWD
 } from "./fixtures/attribution";
 
-import computeAttribution from "../../server/processors/attribution";
+import computeAttribution from "../../server/processors/attribution/attribute";
 
 const offsetHours = (offset = 0) =>
   moment("2018-01-30T09:00:00+01:00")
@@ -39,7 +40,7 @@ const testAttribution = ({
   last_expected = {}
 }) => {
   const source_date = offsetHours(offset);
-  const attribution = computeAttribution({
+  const attribution = computeAttribution({}, {
     account,
     user: {
       ...userProfile,
@@ -133,7 +134,7 @@ describe("Attribution when no Attribution", () => {
   });
 
   it("Should NOT return Growth when a user w/ email does a visit", () => {
-    const attribution = computeAttribution({
+    const attribution = computeAttribution({}, {
       account,
       user,
       events: [EVENTS.ANONYMOUS_VISIT]
@@ -297,8 +298,8 @@ describe("Attribution when lower rank on same day", () => {
       last_existing: PQL,
       event: EVENTS.EMAIL_CAPTURE_MAIN,
       offset: 2,
-      expected: CQL,
-      last_expected: CQL // Empty Means "not touched"
+      expected: CQL, // Empty Means "not touched"
+      last_expected: CQL
     });
   });
 });
@@ -330,7 +331,7 @@ describe("Attribution when lower rank on next day", () => {
 describe("Account Attribution when multiple users", () => {
   it("Should override cross-user first touch PQL if MQL is earlier day", () => {
     expect(
-      computeAttribution({
+      computeAttribution({}, {
         account: {
           ...account,
           attribution: {

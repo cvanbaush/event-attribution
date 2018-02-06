@@ -1,6 +1,6 @@
 import express from "express";
 import { errorHandler } from "hull-connector";
-import { statusHandler, notifyHandler } from "./handlers";
+import { batchHandler, statusHandler, notifyHandler } from "./handlers";
 
 export default function Server(options = {}) {
   const app = express();
@@ -14,7 +14,7 @@ export default function Server(options = {}) {
   }
   connector.setupApp(app);
 
-  app.post("/batch", notifyHandler);
+  app.post("/batch", batchHandler);
   app.post("/smart-notifier", notifyHandler);
   app.all("/status", statusHandler);
 

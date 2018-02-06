@@ -1,40 +1,29 @@
 import Promise from "bluebird";
-import _ from "lodash";
 import { smartNotifierHandler } from "hull/lib/utils";
-import getAttribution from "../processors/attribution";
+import attribute from "../processors/attribution";
 
 const notify = smartNotifierHandler({
   handlers: {
-    "user:update": ({ smartNotifierResponse, client: hull }, messages = []) => {
-      messages.map(message => {
-        const { user } = message;
-        const asUser = hull.asUser(user);
-        const asAccount = asUser().account();
+    "account:update": () => {},
+    "user:update": (context, messages = []) => {
+      const { smartNotifierResponse, client: hull } = context;
 
-        const attribution = getAttribution(message);
-        if (_.size(attribution.user)) {
-          asUser.traits(attribution, { source: "attribution" });
-          asUser.logger.info("outgoing.user.success", {
-            message: "Attribution Updated",
-            attribution: attribution.user
-          });
-        }
-        if (_.size(attribution.account)) {
-          asAccount.traits(attribution, { source: "attribution" });
-          asAccount.logger.info("outgoing.account.success", {
-            message: "Attribution Updated",
-            attribution: attribution.account
-          });
-        }
-        return true;
+      hull.logger.info("outgoing.user.start", {
+        ids: messages.map(m => m.user.id)
       });
+
       // Get 100 users every 100ms at most.
       smartNotifierResponse.setFlowControl({
         type: "next",
         size: 100,
         in: 100
       });
-      return Promise.resolve();
+
+      return Promise.all(
+        messages.map(message => attribute(context, message))
+      ).then(responses => {
+        context.client.logger.info("outgoing.user.success", responses);
+      });
     }
   }
 });
