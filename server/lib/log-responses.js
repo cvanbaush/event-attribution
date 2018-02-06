@@ -8,8 +8,8 @@ export default function logResponse(hull, actions) {
         logs.map("message")
       );
     } else {
-      _.map(logs, ({ user, message }) => {
-        hull.asUser(user).logger.info(`outgoing.user.${action}`, message);
+      _.map(logs, ({ target, message }) => {
+        target.logger.info(`outgoing.${type}.${action}`, message);
       });
     }
   });

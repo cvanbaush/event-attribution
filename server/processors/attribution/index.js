@@ -18,12 +18,14 @@ export default function perform(context, message) {
       actions.push({
         action: "success",
         target: asUser,
+        type: "user",
         message: { attribution: attribution.user }
       });
     } else {
       actions.push({
         action: "skip",
         target: asUser,
+        type: "user",
         message: "no new user attribution data"
       });
     }
@@ -36,17 +38,24 @@ export default function perform(context, message) {
       actions.push({
         action: "success",
         target: asAccount,
+        type: "account",
         message: { attribution: attribution.account }
       });
     } else {
       actions.push({
         action: "skip",
         target: asAccount,
+        type: "account",
         message: "no new account attribution data"
       });
     }
   } catch (e) {
-    actions.push({ target: asUser, action: "error", message: e.message });
+    actions.push({
+      target: asUser,
+      type: "user",
+      action: "error",
+      message: e.message
+    });
   }
   return actions;
 }

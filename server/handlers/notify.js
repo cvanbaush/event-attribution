@@ -5,7 +5,9 @@ import logResponses from "../lib/log-responses";
 
 const notify = smartNotifierHandler({
   handlers: {
-    "account:update": () => {},
+    "account:update": () => {
+      return Promise.resolve();
+    },
     "user:update": (context, messages = []) => {
       const { smartNotifierResponse, client } = context;
 
