@@ -1,14 +1,43 @@
 import _ from "lodash";
 import attribute from "./attribute";
 
+function isInSegments(userSegments = [], segmentsListIds = []) {
+  return (
+    _.isEmpty(segmentsListIds) ||
+    _.intersection(userSegments.map(({ id }) => id), segmentsListIds).length > 0
+  );
+}
+
 export default function perform(context, message) {
-  const { user } = message;
+  const { user, segments } = message;
   const { client: hull, ship = {} } = context;
   const { private_settings = {} } = ship || {};
-  const { attribution_enabled } = private_settings;
+  const { attribution_enabled, synchronized_segments } = private_settings;
   const asUser = hull.asUser(user);
   const actions = [];
   try {
+    if (!_.size(synchronized_segments)) {
+      actions.push({
+        action: "skip",
+        target: asUser,
+        id: user.id,
+        type: "user",
+        message: "No segments enabled"
+      });
+      return actions;
+    }
+
+    if (!isInSegments(segments, synchronized_segments)) {
+      actions.push({
+        action: "skip",
+        target: asUser,
+        id: user.id,
+        type: "user",
+        message: "No segments enabled"
+      });
+      return actions;
+    }
+
     const attribution = attribute(context, message);
 
     if (_.size(attribution.user)) {
