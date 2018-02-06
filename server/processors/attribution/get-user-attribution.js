@@ -1,5 +1,13 @@
 import _ from "lodash";
-import moment from "moment";
+import {
+  isSameDay,
+  isPreviousDay,
+  isLaterDay,
+  isLaterSameDay,
+  isEarlierSameDay,
+  isHigherRank,
+  isSameRank
+} from "./utils/comparisons";
 
 export default function attributeUser({
   user,
@@ -9,33 +17,30 @@ export default function attributeUser({
   let userAttribution = {};
 
   const { attribution = {} } = user;
-  const { source_date, last_source_date } = attribution || {};
-
-  // console.log("Chosen Attribution Event", firstAttributionEvent);
+  const { source_date, last_source_date, rank, last_rank } = attribution || {};
 
   // If We don't have attribution
   // or it's still "day one"
   if (
-    !source_date ||
-    (firstAttributionEvent.rank <= attribution.rank &&
-      moment(firstAttributionEvent.source_date).isSame(source_date, "day"))
+    _.size(firstAttributionEvent) &&
+    (!source_date ||
+      isPreviousDay(firstAttributionEvent.source_date, source_date) ||
+      (isHigherRank(firstAttributionEvent.rank, rank) &&
+        isSameDay(firstAttributionEvent.source_date, source_date)) ||
+      (isSameRank(firstAttributionEvent.rank, rank) &&
+        isEarlierSameDay(firstAttributionEvent.source_date, source_date)))
   ) {
     userAttribution = { ...userAttribution, ...firstAttributionEvent };
   }
 
-  // console.log("Chosen Last Attribution Event", lastAttributionEvent);
-
   if (
-    // If we don't have a last_source_date already
-    !last_source_date ||
-    // or we have a higher rank and we're on the same day
-    ((lastAttributionEvent.rank <= attribution.last_rank &&
-      moment(lastAttributionEvent.source_date).isSame(
-        last_source_date,
-        "day"
-      )) ||
-      // or we are on another day
-      moment(lastAttributionEvent.source_date).isAfter(last_source_date, "day"))
+    _.size(lastAttributionEvent) &&
+    (!last_source_date ||
+      isLaterDay(lastAttributionEvent.source_date, last_source_date) ||
+      (isHigherRank(lastAttributionEvent.rank, last_rank) &&
+        isSameDay(lastAttributionEvent.source_date, last_source_date)) ||
+      (isSameRank(lastAttributionEvent.rank, last_rank) &&
+        isLaterSameDay(lastAttributionEvent.source_date, last_source_date)))
   ) {
     userAttribution = {
       ...userAttribution,

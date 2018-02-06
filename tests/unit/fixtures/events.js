@@ -8,7 +8,7 @@ export const SIGNED_UP = {
       url: "https://app.drift.com/welcome/drift"
     }
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "Signed Up",
   event_source: "segment",
   event_type: "track",
@@ -31,7 +31,7 @@ export const EMAIL_CAPTURE_MAIN = {
         "https://www.drift.com/the-secret-to-more-sales-meetings/?utm_source=hs_email&utm_medium=email&utm_content=60270895&_hsenc=p2ANqtz-8fHLrBObG46PNIorb43X0kLdYB5bIrRR10D4yA3aeV80FK3bN94K0kxVu5Soy8l3QL7IBwnrKuJUVXL750nDZembu4-A&_hsmi=60270895"
     }
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "Email Captured",
   event_source: "segment",
   event_type: "track",
@@ -50,7 +50,7 @@ export const EMAIL_CAPTURE_BLOG = {
       url: "https://blog.drift.com/how-to-launch-a-product/"
     }
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "Email Captured",
   event_source: "segment",
   event_type: "track",
@@ -64,7 +64,7 @@ export const CLEARBIT_PROSPECT = {
     location: {},
     page: {}
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "User created",
   event_source: "Clearbit",
   event_type: "user_created",
@@ -91,7 +91,7 @@ export const G2CROWD = {
     location: {},
     page: {}
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "Visited G2Crowd Page",
   event_source: "scheduled-calls",
   event_type: "track",
@@ -112,7 +112,7 @@ export const SEGMENT_G2CROWD = {
     location: {},
     page: {}
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "G2Crowd",
   event_source: "segment",
   event_type: "track",
@@ -134,7 +134,7 @@ export const SEGMENT_SIFTERY = {
     location: {},
     page: {}
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "Siftery",
   event_source: "segment",
   event_type: "track",
@@ -161,7 +161,7 @@ export const ANONYMOUS_VISIT = {
       url: "https://www.drift.com/?utm_source=www.thelonelypixel.co.uk&utm_campaign=widget-referral"
     }
   },
-  created_at: "2018-01-30T01:00:00+01:00",
+  created_at: "2018-01-30T09:00:00+01:00",
   event: "page",
   event_source: "segment",
   event_type: "track",

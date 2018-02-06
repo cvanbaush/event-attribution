@@ -1,20 +1,34 @@
-import _ from "lodash";
-import moment from "moment";
+import {
+  isSameDay,
+  isPreviousDay,
+  isLaterDay,
+  isLaterSameDay,
+  isEarlierSameDay,
+  isHigherRank,
+  isSameRank
+} from "./utils/comparisons";
+
 import {
   getFirstAttribution,
   getLastAttribution
 } from "./utils/attribution-values";
 
-export default function({ user, account, userAttribution }) {
+export default function({ account, userAttribution }) {
   const { attribution } = account;
+  const { source_date, last_source_date, rank, last_rank } = attribution || {};
 
   let accountAttribution = {};
 
   // Process first Account attribution
   if (
-    !_.size(attribution) ||
-    (moment(userAttribution.source_date).isBefore(attribution.source_date) &&
-      userAttribution.rank >= attribution.rank)
+    userAttribution &&
+    userAttribution.source_date &&
+    (!source_date ||
+      isPreviousDay(userAttribution.source_date, source_date) ||
+      (isHigherRank(userAttribution.rank, rank) &&
+        isSameDay(userAttribution.source_date, source_date)) ||
+      (isSameRank(userAttribution.rank, rank) &&
+        isEarlierSameDay(userAttribution.source_date, source_date)))
   ) {
     accountAttribution = {
       ...getFirstAttribution(userAttribution)
@@ -23,11 +37,14 @@ export default function({ user, account, userAttribution }) {
 
   // Process last Account attribution
   if (
-    !_.size(attribution) ||
-    (moment(userAttribution.last_source_date).isAfter(
-      attribution.last_source_date
-    ) &&
-      userAttribution.last_rank >= attribution.last_rank)
+    userAttribution &&
+    userAttribution.last_source_date &&
+    (!last_source_date ||
+      isLaterDay(userAttribution.last_source_date, last_source_date) ||
+      (isHigherRank(userAttribution.last_rank, last_rank) &&
+        isSameDay(userAttribution.last_source_date, last_source_date)) ||
+      (isSameRank(userAttribution.last_rank, last_rank) &&
+        isLaterSameDay(userAttribution.last_source_date, last_source_date)))
   ) {
     accountAttribution = {
       ...accountAttribution,

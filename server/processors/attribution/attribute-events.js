@@ -14,7 +14,6 @@ export default function attribute(user, event) {
     event: name
   } = event;
   const { page = {} } = context || {};
-  console.log(event)
   // Signup -> PQL
   if (name === "Signed Up" || name === "Started Subscription") {
     return {
