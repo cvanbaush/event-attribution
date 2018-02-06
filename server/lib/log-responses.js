@@ -1,7 +1,7 @@
 import _ from "lodash";
 
-export default function logResponse(hull, responses) {
-  _.map(_.groupBy(responses, "action"), (logs, action) => {
+export default function logResponse(hull, actions) {
+  _.map(_.groupBy(_.flatten(actions), "action"), (logs, action) => {
     if (action === "skip") {
       context.client.logger.info(
         `outgoing.user.${action}`,

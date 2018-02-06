@@ -7,7 +7,16 @@
   "admin": "admin.html",
   "readme": "readme.md",
   "version": "0.0.1",
-  "private_settings": [],
+  "private_settings": [
+    {
+      "title": "Enable Attribution writes",
+      "name": "attribution_enabled",
+      "description":
+        "Enables writing the result of attribution in the User profile. Otherwise you can see what we would have written in the logs",
+      "type": "boolean",
+      "default": false
+    }
+  ],
   "settings": [],
   "resources": [],
   "subscriptions": [{ "url": "/smart-notifier" }]

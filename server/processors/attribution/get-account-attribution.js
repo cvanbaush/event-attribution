@@ -13,42 +13,49 @@ import {
   getLastAttribution
 } from "./utils/attribution-values";
 
-export default function({ account, userAttribution }) {
+export default function({ account, user, userAttribution }) {
   const { attribution } = account;
   const { source_date, last_source_date, rank, last_rank } = attribution || {};
 
   let accountAttribution = {};
 
+  const finalUserAttribution = {
+    ...(user.attribution || {}),
+    ...userAttribution
+  };
   // Process first Account attribution
   if (
-    userAttribution &&
-    userAttribution.source_date &&
+    finalUserAttribution &&
+    finalUserAttribution.source_date &&
     (!source_date ||
-      isPreviousDay(userAttribution.source_date, source_date) ||
-      (isHigherRank(userAttribution.rank, rank) &&
-        isSameDay(userAttribution.source_date, source_date)) ||
-      (isSameRank(userAttribution.rank, rank) &&
-        isEarlierSameDay(userAttribution.source_date, source_date)))
+      isPreviousDay(finalUserAttribution.source_date, source_date) ||
+      (isHigherRank(finalUserAttribution.rank, rank) &&
+        isSameDay(finalUserAttribution.source_date, source_date)) ||
+      (isSameRank(finalUserAttribution.rank, rank) &&
+        isEarlierSameDay(finalUserAttribution.source_date, source_date)))
   ) {
     accountAttribution = {
-      ...getFirstAttribution(userAttribution)
+      ...getFirstAttribution(finalUserAttribution)
     };
   }
 
   // Process last Account attribution
   if (
-    userAttribution &&
-    userAttribution.last_source_date &&
+    finalUserAttribution &&
+    finalUserAttribution.last_source_date &&
     (!last_source_date ||
-      isLaterDay(userAttribution.last_source_date, last_source_date) ||
-      (isHigherRank(userAttribution.last_rank, last_rank) &&
-        isSameDay(userAttribution.last_source_date, last_source_date)) ||
-      (isSameRank(userAttribution.last_rank, last_rank) &&
-        isLaterSameDay(userAttribution.last_source_date, last_source_date)))
+      isLaterDay(finalUserAttribution.last_source_date, last_source_date) ||
+      (isHigherRank(finalUserAttribution.last_rank, last_rank) &&
+        isSameDay(finalUserAttribution.last_source_date, last_source_date)) ||
+      (isSameRank(finalUserAttribution.last_rank, last_rank) &&
+        isLaterSameDay(
+          finalUserAttribution.last_source_date,
+          last_source_date
+        )))
   ) {
     accountAttribution = {
       ...accountAttribution,
-      ...getLastAttribution(userAttribution)
+      ...getLastAttribution(finalUserAttribution)
     };
   }
   return accountAttribution;

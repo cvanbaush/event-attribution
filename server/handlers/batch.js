@@ -12,12 +12,15 @@ export default function batchHandlerFactory(options) {
     },
     handlers: {
       "user:update": function userUpdate(context, messages = []) {
-        context.client.logger.info("outgoing.user.start", {
-          ids: messages.map(m => m.user.id)
+        const { client } = context;
+        client.logger.info("outgoing.user.error", {
+          ids: messages.map(m => m.user.id),
+          message:
+            "batch isn't supported for user attribution since we don't have events in there!"
         });
         return Promise.all(
-          messages.map(message => attribute(context, message))
-        ).then(responses => logResponses(hull, responses));
+          messages.map(message => attribute(context, { message }))
+        ).then(responses => logResponses(client, responses));
       }
     }
   });

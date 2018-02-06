@@ -1,20 +1,52 @@
+import _ from "lodash";
 import attribute from "./attribute";
 
 export default function perform(context, message) {
-  const { client: hull } = context;
-  const asUser = hull.asUser(message.user.id);
+  const { user } = message;
+  const { client: hull, ship = {} } = context;
+  const { private_settings = {} } = ship || {};
+  const { attribution_enabled } = private_settings;
+  const asUser = hull.asUser(user);
+  const actions = [];
   try {
     const attribution = attribute(context, message);
-    if (attribution.user) {
-      asUser.traits(attribution.user, { source: "attribution" });
+
+    if (_.size(attribution.user)) {
+      if (attribution_enabled) {
+        asUser.traits(attribution.user, { source: "attribution" });
+      }
+      actions.push({
+        action: "success",
+        target: asUser,
+        message: { attribution: attribution.user }
+      });
+    } else {
+      actions.push({
+        action: "skip",
+        target: asUser,
+        message: "no new user attribution data"
+      });
     }
-    if (attribution.account) {
-      asUser.account().traits(attribution.account, { source: "attribution" });
+
+    const asAccount = asUser.account();
+    if (_.size(attribution.account)) {
+      if (attribution_enabled) {
+        asAccount.traits(attribution.account, { source: "attribution" });
+      }
+      actions.push({
+        action: "success",
+        target: asAccount,
+        message: { attribution: attribution.account }
+      });
+    } else {
+      actions.push({
+        action: "skip",
+        target: asAccount,
+        message: "no new account attribution data"
+      });
     }
   } catch (e) {
-    hull
-      .asUser(message.user.id)
-      .logger.error("outgoing.user.error", { message: e.message });
+    actions.push({ target: asUser, action: "error", message: e.message });
   }
-  return true;
+  return actions;
 }

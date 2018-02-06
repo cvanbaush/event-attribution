@@ -43,7 +43,13 @@ const testAttribution = ({
   const attribution = computeAttribution(
     {},
     {
-      account,
+      account: {
+        ...account,
+        attribution: {
+          ...existing,
+          ...last(last_existing)
+        }
+      },
       user: {
         ...userProfile,
         attribution: {
@@ -59,6 +65,7 @@ const testAttribution = ({
       ]
     }
   );
+
   let expectUser = {};
   // let expectAccount = {};
   if (_.size(expected)) {
@@ -298,13 +305,13 @@ describe("Attribution when lower rank on same day", () => {
     });
   });
 
-  it("Should override PQL with CQL (same rank) later same day", () => {
+  it("Should NOT override PQL with CQL (same rank) later same day, but should override last", () => {
     testAttribution({
       existing: PQL,
       last_existing: PQL,
       event: EVENTS.EMAIL_CAPTURE_MAIN,
       offset: 2,
-      expected: CQL, // Empty Means "not touched"
+      expected: {},
       last_expected: CQL
     });
   });
@@ -384,4 +391,39 @@ describe("Account Attribution when multiple users", () => {
   //     last_expected: GROWTH_SIFTERY
   //   });
   // });
+});
+
+describe("Account attribution when no events", () => {
+  it("Should attribute accounts even if no events in User, but not latest one", () => {
+    expect(
+      computeAttribution(
+        {},
+        {
+          account: {
+            ...account,
+            attribution: {
+              ...MQL,
+              ...last(MQL)
+            }
+          },
+          user: {
+            ...user,
+            attribution: {
+              ...PQL,
+              source_date: offsetHours(-26),
+              ...last(PQL),
+              last_source_date: offsetHours(-26)
+            }
+          },
+          events: []
+        }
+      )
+    ).to.deep.equal({
+      user: {},
+      account: {
+        ...PQL,
+        source_date: offsetHours(-26)
+      }
+    });
+  });
 });

@@ -7,9 +7,9 @@ const notify = smartNotifierHandler({
   handlers: {
     "account:update": () => {},
     "user:update": (context, messages = []) => {
-      const { smartNotifierResponse, client: hull } = context;
+      const { smartNotifierResponse, client } = context;
 
-      hull.logger.info("outgoing.user.start", {
+      client.logger.info("outgoing.user.start", {
         ids: messages.map(m => m.user.id)
       });
 
@@ -22,7 +22,7 @@ const notify = smartNotifierHandler({
 
       return Promise.all(
         messages.map(message => attribute(context, message))
-      ).then(responses => logResponses(hull, responses));
+      ).then(responses => logResponses(client, responses));
     }
   }
 });
