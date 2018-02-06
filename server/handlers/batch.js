@@ -20,11 +20,20 @@ export default function batchHandlerFactory(options) {
         //     "batch isn't supported for user attribution since we don't have events in there!"
         // });
         client.logger.info("outgoing.user.start", {
+          batch: true,
           ids: messages.map(m => m.user.id)
         });
         return Promise.all(
-          messages.map(message => migrateAttributes(context, { message }))
-        ).then(responses => logResponses(client, responses));
+          messages.map(message =>
+            migrateAttributes(context, {
+              user: client.utils.groupTraits(message.user),
+              account: client.utils.groupTraits(message.account),
+              segments: message.segments
+            })
+          )
+        )
+          .then(responses => logResponses(client, responses))
+          .catch(err => console.log(err));
       }
     }
   });

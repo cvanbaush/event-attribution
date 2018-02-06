@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 const RANKS = {
   PQL: 1,
   CQL: 1,
@@ -9,12 +11,11 @@ const getRank = source => RANKS[source] || 1;
 
 export default function(context, message) {
   const { user, account } = message;
-  context.client.asUser(user).traits({}, { source: "attribution" });
   const promises = [];
   if (
     user.id &&
     // Only proceed if we don't have user attribution data;
-    (!user.attribution && !user.attribution && !user.source_date)
+    !_.get(user, "attribution.source_date")
   ) {
     const {
       lead_source,
@@ -23,7 +24,8 @@ export default function(context, message) {
       last_lead_source,
       last_lead_details,
       last_source_timestamp
-    } = user;
+    } =
+      user.traits || {};
 
     let userAttribution = {};
 
@@ -45,24 +47,37 @@ export default function(context, message) {
       };
     }
     const asUser = context.client.asUser(user);
-    promises.push(
-      asUser.traits(userAttribution, { source: "attribution" }).then(() => ({
-        action: "success",
+    if (_.size(userAttribution)) {
+      promises.push(
+        asUser.traits(userAttribution, { source: "attribution" }).then(() => ({
+          action: "success",
+          target: asUser,
+          id: user.id,
+          type: "user",
+          message: {
+            message: "Copied attribution data",
+            attribution: userAttribution
+          }
+        }))
+      );
+    } else {
+      promises.push({
+        action: "skip",
         target: asUser,
         id: user.id,
         type: "user",
         message: {
-          message: "Copied attribution data",
+          message: "No Attribution Data",
           attribution: userAttribution
         }
-      }))
-    );
+      });
+    }
   }
 
   if (
     account.id &&
     // Only proceed if we don't have account attribution data;
-    (!account.attribution && !account.attribution && !account.source_date)
+    (!account.attribution || !account.attribution.source_date)
   ) {
     const {
       lead_source,
@@ -93,20 +108,33 @@ export default function(context, message) {
       };
     }
     const asAccount = context.client.asAccount(account);
-    promises.push(
-      asAccount
-        .traits(accountAttribution, { source: "attribution" })
-        .then(() => ({
-          action: "success",
-          target: asAccount,
-          id: account.id,
-          type: "user",
-          message: {
-            message: "Copied attribution data",
-            attribution: accountAttribution
-          }
-        }))
-    );
+    if (_.size(accountAttribution)) {
+      promises.push(
+        asAccount
+          .traits(accountAttribution, { source: "attribution" })
+          .then(() => ({
+            action: "success",
+            target: asAccount,
+            id: account.id,
+            type: "account",
+            message: {
+              message: "Copied attribution data",
+              attribution: accountAttribution
+            }
+          }))
+      );
+    } else {
+      promises.push({
+        action: "skip",
+        target: asAccount,
+        id: account.id,
+        type: "account",
+        message: {
+          message: "No Attribution Data",
+          attribution: accountAttribution
+        }
+      });
+    }
   }
   return Promise.all(promises);
 }

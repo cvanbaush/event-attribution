@@ -8,7 +8,10 @@ export default function logResponse(hull, actions) {
         ids: logs.map(l => l.id)
       });
     } else {
-      _.map(logs, ({ target, type, message }) => {
+      _.map(logs, (response = {}) => {
+        if (!response) return;
+        const { target, type, message } = response;
+        if (!target) return;
         target.logger.info(`outgoing.${type}.${action}`, message);
       });
     }

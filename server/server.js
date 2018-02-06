@@ -14,7 +14,7 @@ export default function Server(options = {}) {
   }
   connector.setupApp(app);
 
-  app.post("/batch", batchHandler);
+  app.post("/batch", batchHandler(options));
   app.post("/smart-notifier", notifyHandler);
   app.all("/status", statusHandler);
 
