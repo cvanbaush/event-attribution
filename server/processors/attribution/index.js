@@ -16,32 +16,32 @@ export default function perform(context, message) {
   const asUser = hull.asUser(user);
   const actions = [];
   try {
-    if (!_.size(synchronized_segments)) {
-      actions.push({
-        action: "skip",
-        target: asUser,
-        id: user.id,
-        type: "user",
-        message: "No segments enabled"
-      });
-      return actions;
-    }
-
-    if (!isInSegments(segments, synchronized_segments)) {
-      actions.push({
-        action: "skip",
-        target: asUser,
-        id: user.id,
-        type: "user",
-        message: "No segments enabled"
-      });
-      return actions;
-    }
+    // if (!_.size(synchronized_segments)) {
+    //   actions.push({
+    //     action: "skip",
+    //     target: asUser,
+    //     id: user.id,
+    //     type: "user",
+    //     message: "No segments enabled"
+    //   });
+    //   return actions;
+    // }
+    //
+    // if (!isInSegments(segments, synchronized_segments)) {
+    //   actions.push({
+    //     action: "skip",
+    //     target: asUser,
+    //     id: user.id,
+    //     type: "user",
+    //     message: "No segments enabled"
+    //   });
+    //   return actions;
+    // }
 
     const attribution = attribute(context, message);
 
     if (_.size(attribution.user)) {
-      if (attribution_enabled) {
+      if (true || attribution_enabled) {
         asUser.traits(attribution.user, { source: "attribution" });
       }
       actions.push({
@@ -63,7 +63,7 @@ export default function perform(context, message) {
 
     const asAccount = asUser.account();
     if (_.size(attribution.account)) {
-      if (attribution_enabled) {
+      if (true || attribution_enabled) {
         asAccount.traits(attribution.account, { source: "attribution" });
       }
       actions.push({

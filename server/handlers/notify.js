@@ -4,6 +4,9 @@ import attribute from "../processors/attribution";
 import logResponses from "../lib/log-responses";
 
 const notify = smartNotifierHandler({
+  userHandlerOptions: {
+    groupTraits: true
+  },
   handlers: {
     "account:update": () => {
       return Promise.resolve();
@@ -22,9 +25,12 @@ const notify = smartNotifierHandler({
         in: 100
       });
 
-      return Promise.all(
-        messages.map(message => attribute(context, message))
-      ).then(responses => logResponses(client, responses));
+      return Promise.resolve();
+      // DONT FORGET TO READD THE "ENABLE ATTRIBUTE CONDITION"
+      // DONT FORGET TO READD THE "SEGMENT FILTER"
+      // return Promise.all(
+      //   messages.map(message => attribute(context, message))
+      // ).then(responses => logResponses(client, responses));
     }
   }
 });
