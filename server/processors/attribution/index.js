@@ -16,27 +16,27 @@ export default function perform(context, message) {
   const asUser = hull.asUser(user);
   const actions = [];
   try {
-    // if (!_.size(synchronized_segments)) {
-    //   actions.push({
-    //     action: "skip",
-    //     target: asUser,
-    //     id: user.id,
-    //     type: "user",
-    //     message: "No segments enabled"
-    //   });
-    //   return actions;
-    // }
+    if (!_.size(synchronized_segments)) {
+      actions.push({
+        action: "skip",
+        target: asUser,
+        id: user.id,
+        type: "user",
+        message: "No segments enabled"
+      });
+      return actions;
+    }
 
-    // if (!isInSegments(segments, synchronized_segments)) {
-    //   actions.push({
-    //     action: "skip",
-    //     target: asUser,
-    //     id: user.id,
-    //     type: "user",
-    //     message: "No segments enabled"
-    //   });
-    //   return actions;
-    // }
+    if (!isInSegments(segments, synchronized_segments)) {
+      actions.push({
+        action: "skip",
+        target: asUser,
+        id: user.id,
+        type: "user",
+        message: "No segments enabled"
+      });
+      return actions;
+    }
 
     const attribution = attribute(context, message);
 
