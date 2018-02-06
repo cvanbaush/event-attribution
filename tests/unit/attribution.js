@@ -40,22 +40,25 @@ const testAttribution = ({
   last_expected = {}
 }) => {
   const source_date = offsetHours(offset);
-  const attribution = computeAttribution({}, {
-    account,
-    user: {
-      ...userProfile,
-      attribution: {
-        ...existing,
-        ...last(last_existing)
-      }
-    },
-    events: [
-      {
-        ...event,
-        created_at: source_date
-      }
-    ]
-  });
+  const attribution = computeAttribution(
+    {},
+    {
+      account,
+      user: {
+        ...userProfile,
+        attribution: {
+          ...existing,
+          ...last(last_existing)
+        }
+      },
+      events: [
+        {
+          ...event,
+          created_at: source_date
+        }
+      ]
+    }
+  );
   let expectUser = {};
   // let expectAccount = {};
   if (_.size(expected)) {
@@ -134,11 +137,14 @@ describe("Attribution when no Attribution", () => {
   });
 
   it("Should NOT return Growth when a user w/ email does a visit", () => {
-    const attribution = computeAttribution({}, {
-      account,
-      user,
-      events: [EVENTS.ANONYMOUS_VISIT]
-    });
+    const attribution = computeAttribution(
+      {},
+      {
+        account,
+        user,
+        events: [EVENTS.ANONYMOUS_VISIT]
+      }
+    );
     expect(attribution).to.deep.equal({
       user: {},
       account: {}
@@ -331,28 +337,31 @@ describe("Attribution when lower rank on next day", () => {
 describe("Account Attribution when multiple users", () => {
   it("Should override cross-user first touch PQL if MQL is earlier day", () => {
     expect(
-      computeAttribution({}, {
-        account: {
-          ...account,
-          attribution: {
-            ...PQL,
-            ...last(PQL)
-          }
-        },
-        user: {
-          ...user,
-          attribution: {
-            ...PQL,
-            ...last(PQL)
-          }
-        },
-        events: [
-          {
-            ...EVENTS.EMAIL_CAPTURE_BLOG,
-            created_at: offsetHours(-26)
-          }
-        ]
-      })
+      computeAttribution(
+        {},
+        {
+          account: {
+            ...account,
+            attribution: {
+              ...PQL,
+              ...last(PQL)
+            }
+          },
+          user: {
+            ...user,
+            attribution: {
+              ...PQL,
+              ...last(PQL)
+            }
+          },
+          events: [
+            {
+              ...EVENTS.EMAIL_CAPTURE_BLOG,
+              created_at: offsetHours(-26)
+            }
+          ]
+        }
+      )
     ).to.deep.equal({
       user: {
         ...MQL,

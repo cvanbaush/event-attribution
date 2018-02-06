@@ -1,6 +1,7 @@
 import Promise from "bluebird";
 import { smartNotifierHandler } from "hull/lib/utils";
 import attribute from "../processors/attribution";
+import logResponses from "../lib/log-responses";
 
 const notify = smartNotifierHandler({
   handlers: {
@@ -21,9 +22,7 @@ const notify = smartNotifierHandler({
 
       return Promise.all(
         messages.map(message => attribute(context, message))
-      ).then(responses => {
-        context.client.logger.info("outgoing.user.success", responses);
-      });
+      ).then(responses => logResponses(hull, responses));
     }
   }
 });
