@@ -25,9 +25,6 @@ const notify = smartNotifierHandler({
         in: 1
       });
 
-      return Promise.resolve();
-      // DONT FORGET TO READD THE "ENABLE ATTRIBUTE CONDITION"
-      // DONT FORGET TO READD THE "SEGMENT FILTER"
       return Promise.all(
         messages.map(message => attribute(context, message))
       ).then(responses => logResponses(client, responses));

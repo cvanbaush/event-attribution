@@ -15,17 +15,6 @@
         "Enables writing the result of attribution in the User profile. Otherwise you can see what we would have written in the logs",
       "type": "boolean",
       "default": false
-    },
-    {
-      "title": "Only process users in these segments",
-      "name": "synchronized_segments",
-      "description": "Attribution will only be applied to users that belong to one or more of these segments. _Sends no one if empty_",
-      "type": "array",
-      "format": "segment",
-      "items": {
-        "type": "string"
-      },
-      "default": []
     }
   ],
   "settings": [],
