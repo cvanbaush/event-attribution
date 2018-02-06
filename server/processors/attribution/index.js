@@ -33,7 +33,7 @@ export default function perform(context, message) {
         target: asUser,
         id: user.id,
         type: "user",
-        message: "No segments enabled"
+        message: "User not in whitelisted segments"
       });
       return actions;
     }
