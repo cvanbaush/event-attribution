@@ -1,3 +1,4 @@
+import moment from "moment";
 import _ from "lodash";
 import attribute from "./attribute";
 
@@ -16,35 +17,43 @@ export default function perform(context, message) {
   const asUser = hull.asUser(user);
   const actions = [];
   try {
-    if (!_.size(synchronized_segments)) {
+    if (!moment(user.created_at).isBefore("2018-02-06T00:00:00Z")) {
       actions.push({
         action: "skip",
         target: asUser,
         id: user.id,
         type: "user",
-        message: "No segments enabled"
+        created_at: user.created_at,
+        message: "User created before cutoff date"
       });
       return actions;
     }
+    // if (!_.size(synchronized_segments)) {
+    //   actions.push({
+    //     action: "skip",
+    //     target: asUser,
+    //     id: user.id,
+    //     type: "user",
+    //     message: "No segments enabled"
+    //   });
+    //   return actions;
+    // }
 
-    if (!isInSegments(segments, synchronized_segments)) {
-      hull.asUser(user).logger.debug(
-        "No Match",
-        JSON.stringify({
-          segments: segments.map(m => m.id),
-          synchronized_segments,
-          match: isInSegments(segments, synchronized_segments)
-        })
-      );
-      actions.push({
-        action: "skip",
-        target: asUser,
-        id: user.id,
-        type: "user",
-        message: "User not in whitelisted segments"
-      });
-      return actions;
-    }
+    // if (!isInSegments(segments, synchronized_segments)) {
+    //   hull.asUser(user).logger.debug("No Match", {
+    //     segments: segments.map(m => m.id),
+    //     synchronized_segments,
+    //     match: isInSegments(segments, synchronized_segments)
+    //   });
+    //   actions.push({
+    //     action: "skip",
+    //     target: asUser,
+    //     id: user.id,
+    //     type: "user",
+    //     message: "User not in whitelisted segments"
+    //   });
+    //   return actions;
+    // }
 
     const attribution = attribute(context, message);
 

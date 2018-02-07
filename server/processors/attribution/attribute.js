@@ -6,6 +6,9 @@ import rankSort from "./utils/rank-sort";
 
 export default function(context, { user, events, account }) {
   const attributedEvents = events.map(event => attributeEvents(user, event));
+  context.client
+    .asUser(user)
+    .logger.debug("Attributed Events", attributedEvents);
   // returns
   // [
   //   { event: "xxx", rank: 1, source: "PQL", details: "xxx", source_date: event.created_at }
