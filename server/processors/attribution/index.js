@@ -28,6 +28,14 @@ export default function perform(context, message) {
     }
 
     if (!isInSegments(segments, synchronized_segments)) {
+      hull.asUser(user).logger.debug(
+        "No Match",
+        JSON.stringify({
+          segments: segments.map(m => m.id),
+          synchronized_segments,
+          match: isInSegments(segments, synchronized_segments)
+        })
+      );
       actions.push({
         action: "skip",
         target: asUser,
