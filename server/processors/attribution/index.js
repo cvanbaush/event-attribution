@@ -17,7 +17,7 @@ export default function perform(context, message) {
   const asUser = hull.asUser(user);
   const actions = [];
   try {
-    if (!moment(user.created_at).isBefore("2018-02-06T00:00:00Z")) {
+    if (!moment(user.created_at).isAfter("2018-02-06T00:00:00Z")) {
       actions.push({
         action: "skip",
         target: asUser,
